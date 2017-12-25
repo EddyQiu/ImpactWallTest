@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Movement : MonoBehaviour {
 
@@ -11,9 +12,12 @@ public class Movement : MonoBehaviour {
     Vector2 mousePos;
     Vector2 lastPos;
 
+    public GameObject Speed_GO;
+    private Text Speed_Text;
+
     // Use this for initialization
     void Start () {
-        
+        Speed_Text = Speed_GO.GetComponent<Text>();
         mousePos = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -34,31 +38,28 @@ public class Movement : MonoBehaviour {
 
 
 
-        if (mousePos.y > 0)
-            transform.Rotate(-v3RotY);
-       else if (mousePos.y < 0)
-            transform.Rotate(v3RotY);
-    
-  
-        
-
-        
-   
+        // if (mousePos.y > 0)
+        // transform.Rotate(-v3RotY);
+        //else if (mousePos.y < 0)
+        //transform.Rotate(v3RotY);
 
 
-        //Debug.Log(velocity);
-        if (velocity > 0 && velocity < 1)
-            transform.position = transform.forward * Time.deltaTime * velocity;
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
+
+        if (Speed_Text != null)
+            Speed_Text.text = ("" + velocity);
+
+        // if (velocity > 0 && velocity < 1)
+        //transform.position = transform.forward * Time.deltaTime * velocity;
+
+        if (Input.GetKey(KeyCode.W) && velocity < 1)
             velocity += 0.1f;
-        }
-
-        if (velocity > 0)
-            velocity -= 0.01f;
-        else if (velocity < 0)
+        else if (velocity > 0)
+            velocity -= 0.05f;
+        else
             velocity = 0;
+        
+      
 	}
 
     
