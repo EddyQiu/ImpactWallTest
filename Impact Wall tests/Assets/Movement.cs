@@ -5,43 +5,56 @@ using UnityEngine.UI;
 
 public class Movement : MonoBehaviour {
 
-    float velocity;
-    private Vector3 v3RotX = new Vector3(0.0f ,1.0f, 0);
-    private Vector3 v3RotY = new Vector3(1.0f, 0, 0);
-
-    Vector2 mousePos;
-    Vector2 lastPos;
+    const float MAXVELOCITY = 2.0f;
 
     public GameObject Speed_GO;
     private Text Speed_Text;
 
+    [Range(0.0f, 10.0f)]
+    public float speed = 5.0f;
+    float velocity;
+
+    GameObject character;
+
+    Vector2 MouseLook;
+    Vector2 SmoothV;
+    Vector2 MouseDir;
+
+    public float sensitivity = 2.0f;
+    public float smoothing = 2.0f;
+
+
     // Use this for initialization
     void Start () {
         Speed_Text = Speed_GO.GetComponent<Text>();
-        mousePos = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
         Cursor.lockState = CursorLockMode.Locked;
+        character = this.transform.parent.gameObject;
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        mousePos = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-
-        //  Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        Debug.Log(mousePos.x + " and " + mousePos.y);
-
-        if (mousePos.x > 0)
-            transform.Rotate(v3RotX);
-        else if (mousePos.x < 0)
-            transform.Rotate(-v3RotX);
+        MouseDir = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
 
+        MouseDir = Vector2.Scale(MouseDir, new Vector2(sensitivity * smoothing, sensitivity * smoothing));
 
-        // if (mousePos.y > 0)
-        // transform.Rotate(-v3RotY);
-        //else if (mousePos.y < 0)
-        //transform.Rotate(v3RotY);
+
+        SmoothV.x = Mathf.Lerp(SmoothV.x, MouseDir.x, 1f / smoothing);
+        SmoothV.y = Mathf.Lerp(SmoothV.y, MouseDir.y, 1f / smoothing);
+        MouseLook += SmoothV;
+
+        MouseLook.y = Mathf.Clamp(MouseLook.y, -90.0f, 90.0f);
+        transform.localRotation = Quaternion.AngleAxis(-MouseLook.y, Vector3.right);
+        character.transform.localRotation = Quaternion.AngleAxis(MouseLook.x, character.transform.up);
+
+        if (velocity > 0)
+        {
+            character.transform.position += transform.forward * Time.deltaTime * velocity;
+            velocity -= 0.5f;
+        }
+        else if (velocity < 0)
+            velocity = 0;
 
 
 
@@ -52,14 +65,10 @@ public class Movement : MonoBehaviour {
         // if (velocity > 0 && velocity < 1)
         //transform.position = transform.forward * Time.deltaTime * velocity;
 
-        if (Input.GetKey(KeyCode.W) && velocity < 1)
-            velocity += 0.1f;
-        else if (velocity > 0)
-            velocity -= 0.05f;
-        else
-            velocity = 0;
-        
-      
+        if (Input.GetKey(KeyCode.W) && velocity < MAXVELOCITY)
+            velocity += speed;
+
+
 	}
 
     
