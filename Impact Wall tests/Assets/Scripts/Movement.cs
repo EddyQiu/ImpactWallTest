@@ -23,6 +23,9 @@ public class Movement : MonoBehaviour {
     public float sensitivity = 2.0f;
     public float smoothing = 2.0f;
 
+    float translation;
+    float strafe;
+
 
     // Use this for initialization
     void Start () {
@@ -48,25 +51,30 @@ public class Movement : MonoBehaviour {
         transform.localRotation = Quaternion.AngleAxis(-MouseLook.y, Vector3.right);
         character.transform.localRotation = Quaternion.AngleAxis(MouseLook.x, character.transform.up);
 
+
         if (velocity > 0)
         {
-            character.transform.position += transform.forward * Time.deltaTime * velocity;
+            translation = Input.GetAxisRaw("Vertical") * velocity;
+            strafe = Input.GetAxisRaw("Horizontal") * velocity;
+            translation *= Time.deltaTime;
+            strafe *= Time.deltaTime;
+
+            character.transform.Translate(strafe, 0, translation);
             velocity -= 0.5f;
         }
         else if (velocity < 0)
             velocity = 0;
 
 
-
-
         if (Speed_Text != null)
             Speed_Text.text = ("" + velocity);
 
-        // if (velocity > 0 && velocity < 1)
-        //transform.position = transform.forward * Time.deltaTime * velocity;
-
-        if (Input.GetKey(KeyCode.W) && velocity < MAXVELOCITY)
+        if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) && velocity < MAXVELOCITY)
             velocity += speed;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Cursor.lockState = CursorLockMode.None;
+
 
 
 	}
