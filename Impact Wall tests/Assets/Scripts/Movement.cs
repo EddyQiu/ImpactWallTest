@@ -31,7 +31,7 @@ public class Movement : MonoBehaviour {
     void Start () {
         Speed_Text = Speed_GO.GetComponent<Text>();
         Cursor.lockState = CursorLockMode.Locked;
-        character = this.transform.parent.gameObject;
+        character = transform.parent.gameObject;
     }
 	
 	// Update is called once per frame
