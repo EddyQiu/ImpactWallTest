@@ -73,7 +73,14 @@ public class Movement : MonoBehaviour {
             velocity += speed;
 
         if (Input.GetKeyDown(KeyCode.Escape))
-            Cursor.lockState = CursorLockMode.None;
+        {
+            if (Cursor.lockState == 0) 
+                Cursor.lockState = CursorLockMode.Locked;
+            else
+                Cursor.lockState = CursorLockMode.None;
+               
+            Menu.isMenuOpen = !Menu.isMenuOpen;
+        }
 
 
 

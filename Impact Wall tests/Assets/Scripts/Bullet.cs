@@ -33,6 +33,8 @@ public class Bullet : MonoBehaviour {
 
     void OnCollisionEnter(Collision c)
     {
+        if (rb != null)
+            rb.useGravity = true;
         //Destroy(this.gameObject);
     }
 

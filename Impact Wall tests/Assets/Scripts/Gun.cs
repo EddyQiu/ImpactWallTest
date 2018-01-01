@@ -19,14 +19,11 @@ public class Gun : MonoBehaviour {
 
     void Update() 
     {
-        if (Input.GetAxisRaw("Fire1") != 0 && Time.time > lastShotTime + fireRate )
+        if (Input.GetAxisRaw("Fire1") != 0 && Time.time > lastShotTime + fireRate && !Menu.isMenuOpen)
         {
             lastShotTime = Time.time;
             Instantiate(Bullet_GO, transform.position, Quaternion.identity);
         }
-
-        if (Input.GetAxisRaw("Fire1") != 0)
-            Cursor.lockState = CursorLockMode.Locked;
 
     }
 }
