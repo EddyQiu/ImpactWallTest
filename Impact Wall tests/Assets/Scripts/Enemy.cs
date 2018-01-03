@@ -8,12 +8,11 @@ public class Enemy : MonoBehaviour {
     NavMeshAgent agent;
     Transform goal;
 
-    [SerializeField]
-    float health;
+    public float health;
 
 	// Use this for initialization
 	void Start () {
-        health = 10.0f;
+        health = 100.0f;
 
         agent = GetComponent<NavMeshAgent>();
         InvokeRepeating("Walk", 1.0f, 2.0f);      

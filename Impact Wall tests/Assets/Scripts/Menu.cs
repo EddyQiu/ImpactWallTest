@@ -40,7 +40,7 @@ public class Menu : MonoBehaviour {
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             cursor_Locked = !cursor_Locked;
             if (cursor_Locked)
@@ -56,9 +56,7 @@ public class Menu : MonoBehaviour {
                 isMenuOpen = true;
                 panel_GO.SetActive(true);
                 Time.timeScale = 0;
-            }
-            
-
+            }         
         }
     }
 	
@@ -86,9 +84,8 @@ public class Menu : MonoBehaviour {
 
     public void Close()
     {
-        panel_GO.SetActive(false);
-        isMenuOpen = false;
-        Cursor.lockState = CursorLockMode.Locked;
-        Time.timeScale = 1;
+        #if UNITY_STANDALONE
+            Application.Quit();
+        #endif
     }
 }

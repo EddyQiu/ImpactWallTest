@@ -27,7 +27,7 @@ GameObject:
   - component: {fileID: 195093213696602768}
   m_Layer: 10
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 23236771268766958}
   m_Layer: 10
   m_Name: Face
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -205,6 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 640a7c2bfb4ea1f4d94f23dcaeb8660b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
 --- !u!195 &195093213696602768
 NavMeshAgent:
   m_ObjectHideFlags: 1

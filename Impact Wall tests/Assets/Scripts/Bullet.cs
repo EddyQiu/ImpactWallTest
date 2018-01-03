@@ -10,6 +10,9 @@ public class Bullet : MonoBehaviour {
     [SerializeField]
     float lifeTime = 2.0f;
 
+    [SerializeField]
+    GameObject hitParticle;
+
     GameObject character;
 
     Rigidbody rb;
@@ -37,8 +40,13 @@ public class Bullet : MonoBehaviour {
             rb.useGravity = true;
 
         if (c.collider.tag == "Enemy")
-        {
-            Debug.Log("hit");
+        {   
+            Instantiate(hitParticle, c.contacts[0].point, Quaternion.identity);
+            Enemy enemy = c.gameObject.GetComponent<Enemy>();
+
+            if (enemy != null)
+                enemy.health -= 1;
+            
             Destroy(this.gameObject);
              
         }
