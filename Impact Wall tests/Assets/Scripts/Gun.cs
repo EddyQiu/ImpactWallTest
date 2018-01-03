@@ -8,6 +8,9 @@ public class Gun : MonoBehaviour {
     GameObject Bullet_GO;
 
     [SerializeField]
+    Transform Muzzle_GO;
+
+    [SerializeField]
     float fireRate = 0.05f;
 
     float lastShotTime;
@@ -15,6 +18,7 @@ public class Gun : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         lastShotTime = Time.time;
+        Muzzle_GO = transform.Find("Muzzle");
 	}
 
     void Update() 
@@ -22,7 +26,7 @@ public class Gun : MonoBehaviour {
         if (Input.GetAxisRaw("Fire1") != 0 && Time.time > lastShotTime + fireRate && !Menu.isMenuOpen)
         {
             lastShotTime = Time.time;
-            Instantiate(Bullet_GO, transform.position, Quaternion.identity);
+            Instantiate(Bullet_GO, Muzzle_GO.position, Quaternion.identity);
         }
 
     }

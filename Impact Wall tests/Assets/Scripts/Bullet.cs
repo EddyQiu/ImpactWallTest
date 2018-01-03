@@ -35,7 +35,13 @@ public class Bullet : MonoBehaviour {
     {
         if (rb != null)
             rb.useGravity = true;
-        //Destroy(this.gameObject);
+
+        if (c.collider.tag == "Enemy")
+        {
+            Debug.Log("hit");
+            Destroy(this.gameObject);
+             
+        }
     }
 
 

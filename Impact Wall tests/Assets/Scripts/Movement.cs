@@ -37,19 +37,21 @@ public class Movement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        MouseDir = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+        if (!Menu.isMenuOpen)
+        {
+            MouseDir = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
+
+            MouseDir = Vector2.Scale(MouseDir, new Vector2(sensitivity * smoothing, sensitivity * smoothing));
 
 
-        MouseDir = Vector2.Scale(MouseDir, new Vector2(sensitivity * smoothing, sensitivity * smoothing));
+            SmoothV.x = Mathf.Lerp(SmoothV.x, MouseDir.x, 1f / smoothing);
+            SmoothV.y = Mathf.Lerp(SmoothV.y, MouseDir.y, 1f / smoothing);
+            MouseLook += SmoothV;
 
-
-        SmoothV.x = Mathf.Lerp(SmoothV.x, MouseDir.x, 1f / smoothing);
-        SmoothV.y = Mathf.Lerp(SmoothV.y, MouseDir.y, 1f / smoothing);
-        MouseLook += SmoothV;
-
-        MouseLook.y = Mathf.Clamp(MouseLook.y, -90.0f, 90.0f);
-        transform.localRotation = Quaternion.AngleAxis(-MouseLook.y, Vector3.right);
-        character.transform.localRotation = Quaternion.AngleAxis(MouseLook.x, character.transform.up);
+            MouseLook.y = Mathf.Clamp(MouseLook.y, -90.0f, 90.0f);
+            transform.localRotation = Quaternion.AngleAxis(-MouseLook.y, Vector3.right);
+            character.transform.localRotation = Quaternion.AngleAxis(MouseLook.x, character.transform.up);
+        }
 
 
         if (velocity > 0)
@@ -71,16 +73,6 @@ public class Movement : MonoBehaviour {
 
         if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) && velocity < MAXVELOCITY)
             velocity += speed;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (Cursor.lockState == 0) 
-                Cursor.lockState = CursorLockMode.Locked;
-            else
-                Cursor.lockState = CursorLockMode.None;
-               
-            Menu.isMenuOpen = !Menu.isMenuOpen;
-        }
 
 
 

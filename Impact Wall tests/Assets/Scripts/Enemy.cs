@@ -8,10 +8,15 @@ public class Enemy : MonoBehaviour {
     NavMeshAgent agent;
     Transform goal;
 
+    [SerializeField]
+    float health;
+
 	// Use this for initialization
 	void Start () {
+        health = 10.0f;
+
         agent = GetComponent<NavMeshAgent>();
-        InvokeRepeating("Walk", 1.0f, 2.0f);
+        InvokeRepeating("Walk", 1.0f, 2.0f);      
     }
 
     void Walk()
@@ -26,6 +31,9 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       
+        if (health <= 0)
+            Destroy(gameObject);
 	}
+
+
 }

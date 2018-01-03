@@ -21,34 +21,43 @@ public class Menu : MonoBehaviour {
     public Slider sens_Slider;
     public Slider sm_Slider;
 
+    bool cursor_Locked;
+
 	// Use this for initialization
 	void Start () {
-        sens_Slider = sens_Slider.GetComponent<Slider>();
-        sm_Slider = sm_Slider.GetComponent<Slider>();
-        movement = player_GO.GetComponent<Movement>();
+        sens_Slider = sens_GO.GetComponent<Slider>();
+        sm_Slider = sm_GO.GetComponent<Slider>();
+        movement = player_GO.GetComponentInChildren<Movement>();
 
         sens_Slider.onValueChanged.AddListener(delegate { SetSensitivity(); });
         sm_Slider.onValueChanged.AddListener(delegate { SetSmoothing(); });
 
         panel_GO.SetActive(false);
+        cursor_Locked = true;
 
     }
 
     void Update()
     {
 
-       // if (Input.GetAxisRaw("Fire1") != 0 && !Menu.isMenuOpen)
-            //Cursor.lockState = CursorLockMode.Locked;
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Cursor.lockState == 0)
+            cursor_Locked = !cursor_Locked;
+            if (cursor_Locked)
+            {
                 Cursor.lockState = CursorLockMode.Locked;
+                isMenuOpen = false;
+                panel_GO.SetActive(false);
+                Time.timeScale = 1;
+            }
             else
+            {
                 Cursor.lockState = CursorLockMode.None;
-
-            isMenuOpen = !isMenuOpen;
-            panel_GO.SetActive(isMenuOpen);
+                isMenuOpen = true;
+                panel_GO.SetActive(true);
+                Time.timeScale = 0;
+            }
+            
 
         }
     }
@@ -60,8 +69,7 @@ public class Menu : MonoBehaviour {
             movement.sensitivity = sens_Slider.value;
             Text t = sens_GO.GetComponentInChildren<Text>();
             if (t != null)
-                t.text = "" + sens_Slider.value;
-                
+                t.text = "" + sens_Slider.value;                  
         }          
     }
 
@@ -74,5 +82,13 @@ public class Menu : MonoBehaviour {
             if (t != null)
                 t.text = "" + sm_Slider.value;
         }
+    }
+
+    public void Close()
+    {
+        panel_GO.SetActive(false);
+        isMenuOpen = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Time.timeScale = 1;
     }
 }
