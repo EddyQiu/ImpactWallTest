@@ -9,11 +9,12 @@ public class Spawner : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Instantiate(Enemy, transform.position, Quaternion.identity);
+       
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+		if(Input.GetKeyDown(KeyCode.C))
+            Instantiate(Enemy, transform.position, Quaternion.identity);
+    }
 }

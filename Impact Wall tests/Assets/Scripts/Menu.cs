@@ -39,26 +39,37 @@ public class Menu : MonoBehaviour {
 
     void Update()
     {
+        #if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Tab))
+                ToggleMenu();
+        #endif
 
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            cursor_Locked = !cursor_Locked;
-            if (cursor_Locked)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                isMenuOpen = false;
-                panel_GO.SetActive(false);
-                Time.timeScale = 1;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.None;
-                isMenuOpen = true;
-                panel_GO.SetActive(true);
-                Time.timeScale = 0;
-            }         
-        }
+        #if UNITY_STANDALONE && !UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.Escape))
+                ToggleMenu();
+        #endif
+
     }
+
+    void ToggleMenu()
+    {
+      cursor_Locked = !cursor_Locked;
+      if (cursor_Locked)
+      {
+          Cursor.lockState = CursorLockMode.Locked;
+          isMenuOpen = false;
+          panel_GO.SetActive(false);
+          Time.timeScale = 1;
+      }
+      else
+      {
+          Cursor.lockState = CursorLockMode.None;
+          isMenuOpen = true;
+          panel_GO.SetActive(true);
+          Time.timeScale = 0;
+      }      
+    }
+
 	
     void SetSensitivity()
     {

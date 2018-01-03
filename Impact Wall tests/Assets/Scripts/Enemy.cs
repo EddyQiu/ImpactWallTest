@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        health = 100.0f;
+        health = 10.0f;
 
         agent = GetComponent<NavMeshAgent>();
         InvokeRepeating("Walk", 1.0f, 2.0f);      
