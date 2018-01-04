@@ -7,9 +7,6 @@ public class Movement : MonoBehaviour {
 
     const float MAXVELOCITY = 2.0f;
 
-    public GameObject Speed_GO;
-    private Text Speed_Text;
-
     [Range(0.0f, 10.0f)]
     public float speed = 5.0f;
     float velocity;
@@ -29,7 +26,6 @@ public class Movement : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Speed_Text = Speed_GO.GetComponent<Text>();
         Cursor.lockState = CursorLockMode.Locked;
         character = transform.parent.gameObject;
     }
@@ -66,10 +62,6 @@ public class Movement : MonoBehaviour {
         }
         else if (velocity < 0)
             velocity = 0;
-
-
-        if (Speed_Text != null)
-            Speed_Text.text = ("" + velocity);
 
         if ((Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) && velocity < MAXVELOCITY)
             velocity += speed;
