@@ -18,7 +18,13 @@ public class Enemy : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (health <= 0)
-			Destroy (gameObject);       
+        if (health <= 0)
+        {
+            Menu.killCount += 1;
+            if (Menu.killCount >= 4)
+                Menu.winState = true;
+
+            Destroy(gameObject);         
+        }     
 	}
 }

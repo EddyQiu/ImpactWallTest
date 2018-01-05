@@ -33,23 +33,25 @@ public class Movement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        //If the menu isn't open then allow the player to freely look around.
         if (!Menu.isMenuOpen)
         {
             MouseDir = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 
             MouseDir = Vector2.Scale(MouseDir, new Vector2(sensitivity * smoothing, sensitivity * smoothing));
 
-
+            //Calculates the smoothing 
             SmoothV.x = Mathf.Lerp(SmoothV.x, MouseDir.x, 1f / smoothing);
             SmoothV.y = Mathf.Lerp(SmoothV.y, MouseDir.y, 1f / smoothing);
             MouseLook += SmoothV;
 
+            //Stops the camera from rotating all the way around
             MouseLook.y = Mathf.Clamp(MouseLook.y, -90.0f, 90.0f);
             transform.localRotation = Quaternion.AngleAxis(-MouseLook.y, Vector3.right);
             character.transform.localRotation = Quaternion.AngleAxis(MouseLook.x, character.transform.up);
         }
 
-
+        
         if (velocity > 0)
         {
             translation = Input.GetAxisRaw("Vertical") * velocity;

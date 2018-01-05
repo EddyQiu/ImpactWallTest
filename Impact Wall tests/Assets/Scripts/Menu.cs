@@ -13,15 +13,21 @@ public class Menu : MonoBehaviour {
     [SerializeField]
     GameObject sm_GO;
 
-    public GameObject panel_GO;
+    [SerializeField]
+    Text win_Text;
 
+    public GameObject panel_GO;
     public GameObject player_GO;
+
     Movement movement;
 
     public Slider sens_Slider;
     public Slider sm_Slider;
 
     bool cursor_Locked;
+
+    static public float killCount;
+    static public bool winState;
 
 	// Use this for initialization
 	void Start () {
@@ -34,6 +40,9 @@ public class Menu : MonoBehaviour {
 
         panel_GO.SetActive(false);
         cursor_Locked = true;
+
+        winState = false;
+        killCount = 0;
 
     }
 
@@ -48,6 +57,9 @@ public class Menu : MonoBehaviour {
             if (Input.GetKeyDown(KeyCode.Escape))
                 ToggleMenu();
         #endif
+
+        if (winState && win_Text != null)
+            win_Text.text = "END GAME";
 
     }
 
